@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RiskEngine AI</title>
+    <link rel="stylesheet" href="styles.css?v=riskengine-panels-20260620">
+  </head>
+  <body>
+    <div class="risk-app">
+      <div id="serverWarning" class="server-warning" hidden>
+        Open this app from http://127.0.0.1:3000 so the analyzer API can run.
+      </div>
+      <aside class="sidebar">
+        <div class="brand-lockup">
+          <div class="brand-mark">R</div>
+          <div>
+            <strong>RiskEngine AI</strong>
+            <span>Risk Analyzer</span>
+          </div>
+        </div>
+
+        <nav class="side-nav" aria-label="Primary">
+          <a class="active" href="#dashboard" data-panel="dashboard"><span>D</span>Dashboard</a>
+          <a href="#release-history" data-panel="release-history"><span>R</span>Release History</a>
+          <a href="#security-rules" data-panel="security-rules"><span>S</span>Security Rules</a>
+          <a href="#settings" data-panel="settings"><span>G</span>Settings</a>
+        </nav>
+
+        <div class="side-footer">
+          <a href="#documentation" data-panel="documentation"><span>B</span>Documentation</a>
+          <a href="#support" data-panel="support"><span>?</span>Support</a>
+        </div>
+      </aside>
+
+      <main class="dashboard">
+        <header class="dashboard-topbar">
+          <div class="product-title">
+            <strong>RiskEngine AI</strong>
+            <span></span>
+            <em>Risk Analyzer / Dashboard</em>
+          </div>
+          <div class="top-actions">
+            <label class="search-box">
+              <span>/</span>
+              <input type="search" placeholder="Search pull requests...">
+            </label>
+            <button class="icon-button" type="button" data-panel="notifications" aria-label="Notifications">!</button>
+            <button class="icon-button" type="button" data-panel="help" aria-label="Help">?</button>
+            <div class="avatar">MW</div>
+          </div>
+        </header>
+
+        <section class="dashboard-grid">
+          <div class="left-stack">
+            <section class="analyze-card">
+              <div class="card-title">
+                <span class="card-icon">#</span>
+                <h1>Analyze Pull Request</h1>
+              </div>
+
+              <form id="analyzeForm">
+                <label class="field">
+                  <span>GITHUB PR URL <b>*</b></span>
+                  <div class="input-with-icon">
+                    <span>&gt;</span>
+                    <input
+                      id="prUrl"
+                      name="prUrl"
+                      type="url"
+                      value="https://github.com/demo/checkout/pull/42"
+                      placeholder="https://github.com/org/riskengine/pull/12"
+                    >
+                  </div>
+                  <small>Specify the branch or direct PR link for automated static analysis.</small>
+                </label>
+
+                <label class="field">
+                  <span>TEST RESULTS (OPTIONAL)</span>
+                  <textarea id="testResults" name="testResults" class="test-box" placeholder="Paste CI/CD logs or manual test outputs here..."></textarea>
+                </label>
+
+                <textarea id="architecture" name="architecture" class="architecture-source" spellcheck="false"></textarea>
+
+                <div class="actions two-buttons">
+                  <button id="sampleButton" class="secondary-button" type="button">LOAD SAMPLE</button>
+                  <button id="analyzeButton" type="submit">ANALYZE RELEASE RISK <span>*</span></button>
+                </div>
+                <span id="status" role="status">Ready</span>
+              </form>
+            </section>
+
+            <div class="small-stat-row">
+              <section class="small-stat">
+                <span>ANALYZED THIS WEEK</span>
+                <strong>142</strong>
+              </section>
+              <section class="small-stat danger">
+                <span>RISKS BLOCKED</span>
+                <strong>12</strong>
+              </section>
+            </div>
+          </div>
+
+          <section class="decision-card">
+            <div class="decision-header">
+              <div>
+                <span id="riskBadge" class="risk-badge neutral">NO ANALYSIS</span>
+                <h2>Release Decision</h2>
+              </div>
+              <p><span>o</span> Analysis <span id="reportState">idle</span></p>
+            </div>
+
+            <section class="recommendation-box">
+              <span>FINAL RECOMMENDATION</span>
+              <h3 id="riskTitle">NO ANALYSIS YET</h3>
+              <p id="recommendationCopy">Load the sample or paste a PR URL, then click Analyze Release Risk to generate a recommendation.</p>
+            </section>
+
+            <div class="finding-grid">
+              <section>
+                <h4><span>!</span> POTENTIAL IMPACT</h4>
+                <div id="impactList" class="impact-list">
+                  <span class="impact-chip">Run an analysis to see impacted areas</span>
+                </div>
+              </section>
+              <section>
+                <h4><span>x</span> MISSING TESTS</h4>
+                <div id="missingTestsList" class="missing-tests-list">
+                  <span>Run an analysis to see missing tests</span>
+                </div>
+              </section>
+            </div>
+
+            <section class="evidence-block">
+              <h4>&lt;&gt; EVIDENCE CLUSTER</h4>
+              <pre id="report">No analysis run yet. Load the sample PR or paste your own, then click Analyze Release Risk.</pre>
+            </section>
+
+            <div class="decision-actions">
+              <button id="copyButton" class="secondary-button" type="button">EXPORT REPORT</button>
+              <button id="commentButton" class="primary-button" type="button">OVERRIDE (ADMIN)</button>
+            </div>
+          </section>
+        </section>
+
+        <section class="bottom-grid">
+          <section class="bottom-card">
+            <h4>HOW THIS WORKS</h4>
+            <p>The analyzer compares changed files against your architecture map, checks for missing required tests, and computes a deterministic 0–100 risk score.</p>
+          </section>
+          <section class="bottom-card">
+            <h4>RISK LEVELS</h4>
+            <div class="policy-tags">
+              <span>0–30 LOW</span>
+              <span>31–60 MEDIUM</span>
+              <span>61–100 HIGH</span>
+            </div>
+          </section>
+        </section>
+
+        <section id="workspacePanel" class="workspace-panel" hidden>
+          <div class="workspace-panel-header">
+            <div>
+              <span id="panelEyebrow">Workspace</span>
+              <h2 id="panelTitle">Panel</h2>
+            </div>
+            <button id="closePanelButton" class="secondary-button" type="button">CLOSE</button>
+          </div>
+          <div id="panelBody" class="workspace-panel-body"></div>
+        </section>
+
+        <div class="app-hidden-metrics" aria-hidden="true">
+          <strong id="scoreValue">100</strong>
+          <strong id="fileValue">3</strong>
+          <strong id="lineValue">124</strong>
+          <strong id="testValue">0</strong>
+        </div>
+      </main>
+    </div>
+
+    <script src="app.js?v=riskengine-panels-20260620" type="module"></script>
+  </body>
+</html>

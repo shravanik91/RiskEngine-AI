@@ -1,0 +1,32 @@
+{
+  "authentication": {
+    "label": "Authentication",
+    "files": ["src/auth/**", "src/session/**", "app/auth/**", "lib/auth/**"],
+    "risk": "high",
+    "required_tests": ["login", "logout", "session expiry", "invalid token", "permission checks"]
+  },
+  "payments": {
+    "label": "Payment Flow",
+    "files": ["src/payments/**", "src/billing/**", "app/payments/**", "lib/stripe/**"],
+    "risk": "critical",
+    "required_tests": ["successful payment", "failed payment", "refund", "webhook retry", "idempotency"]
+  },
+  "database": {
+    "label": "Database",
+    "files": ["migrations/**", "db/**", "prisma/**", "schema.sql"],
+    "risk": "high",
+    "required_tests": ["migration rollback", "data compatibility", "backfill safety"]
+  },
+  "notifications": {
+    "label": "Notifications",
+    "files": ["src/email/**", "src/notifications/**", "app/notifications/**"],
+    "risk": "medium",
+    "required_tests": ["send success", "retry", "unsubscribe", "template rendering"]
+  },
+  "frontend": {
+    "label": "Frontend UI",
+    "files": ["app/**", "pages/**", "components/**", "src/ui/**"],
+    "risk": "low",
+    "required_tests": ["render smoke test", "responsive layout"]
+  }
+}
